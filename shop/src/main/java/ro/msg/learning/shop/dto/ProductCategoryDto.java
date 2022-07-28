@@ -8,9 +8,9 @@ import java.util.HashSet;
 
 @AllArgsConstructor @Getter
 public class ProductCategoryDto {
-    private Long id;
-    private String name;
-    private String description;
+    private final Long id;
+    private final String name;
+    private final String description;
 
     public ProductCategoryDto(ProductCategory productCategory) {
         this.id = productCategory.getId();
