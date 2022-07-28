@@ -28,13 +28,18 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public ProductWithCategoryDto findProductWithCategoryById(@PathVariable long id) {
+    public ProductWithCategoryDto findProductWithCategoryById(@PathVariable Long id) {
         return productService.findProductById(id).map(ProductWithCategoryDto::new).orElseThrow();
+    }
+
+    @DeleteMapping("/products/{id}")
+    public void deleteProductById(@PathVariable Long id) {
+        productService.deleteProductById(id);
     }
 
     @PostMapping("/products/categories")
     public void saveProductCategory(@RequestBody ProductCategoryDto productCategoryDto) {
-        productService.saveProductCategory(productCategoryDto.toProductCategory());
+        productService.saveProductCategory(productCategoryDto);
     }
 
     @GetMapping("/products/categories")
@@ -42,9 +47,14 @@ public class ProductController {
         return productService.findAllProductCategories().stream().map(ProductCategoryDto::new).toList();
     }
 
+    @DeleteMapping("/products/categories/{id}")
+    public void deleteProductCategoryById(@PathVariable Long id) {
+        productService.deleteProductCategoryById(id);
+    }
+
     @PostMapping("/products/suppliers")
     public void saveSupplier(@RequestBody SupplierDto supplier) {
-        productService.saveSupplier(supplier.toSupplier());
+        productService.saveSupplier(supplier);
     }
 
     @GetMapping("/products/suppliers")

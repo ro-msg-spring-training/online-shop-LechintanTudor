@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS product (
     description NVARCHAR(255) NOT NULL,
     price NUMERIC NOT NULL,
     weight DOUBLE PRECISION NOT NULL,
-    category INT NOT NULL REFERENCES product_category(id),
-    supplier INT NOT NULL REFERENCES supplier(id),
+    category INT REFERENCES product_category(id) ON DELETE SET NULL,
+    supplier INT REFERENCES supplier(id) ON DELETE SET NULL,
     image_url NVARCHAR(255) NOT NULL
 );
 

@@ -1,8 +1,9 @@
 package ro.msg.learning.shop.service;
 
 import org.springframework.stereotype.Service;
-import ro.msg.learning.shop.dto.ProductWithCategoryDto;
+import ro.msg.learning.shop.dto.ProductCategoryDto;
 import ro.msg.learning.shop.dto.SaveProductDto;
+import ro.msg.learning.shop.dto.SupplierDto;
 import ro.msg.learning.shop.model.Product;
 import ro.msg.learning.shop.model.ProductCategory;
 import ro.msg.learning.shop.model.Supplier;
@@ -30,11 +31,11 @@ public class ProductService {
         this.products = products;
     }
 
-    public void saveProductCategory(ProductCategory category) {
-        productCategories.save(category);
+    public void saveProductCategory(ProductCategoryDto category) {
+        productCategories.save(category.toProductCategory());
     }
 
-    public Optional<ProductCategory> findProductCategoryById(long categoryId) {
+    public Optional<ProductCategory> findProductCategoryById(Long categoryId) {
         return productCategories.findById(categoryId);
     }
 
@@ -42,11 +43,17 @@ public class ProductService {
         return productCategories.findAll();
     }
 
-    public void saveSupplier(Supplier supplier) {
-        suppliers.save(supplier);
+    public void deleteProductCategoryById(Long categoryId) {
+        if (productCategories.existsById(categoryId)) {
+            productCategories.deleteById(categoryId);
+        }
     }
 
-    public Optional<Supplier> findSupplierById(long supplierId) {
+    public void saveSupplier(SupplierDto supplier) {
+        suppliers.save(supplier.toSupplier());
+    }
+
+    public Optional<Supplier> findSupplierById(Long supplierId) {
         return suppliers.findById(supplierId);
     }
 
@@ -73,11 +80,18 @@ public class ProductService {
         products.save(product);
     }
 
-    public Optional<Product> findProductById(long productId) {
+    public Optional<Product> findProductById(Long productId) {
         return products.findById(productId);
     }
 
     public List<Product> findAllProducts() {
         return products.findAll();
+    }
+
+    @Transactional
+    public void deleteProductById(Long productId) {
+        if (products.existsById(productId)) {
+            products.deleteById(productId);
+        }
     }
 }

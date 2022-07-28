@@ -21,6 +21,11 @@ public class ProductWithCategoryDto {
         this.description = product.getDescription();
         this.price = product.getPrice();
         this.weight = product.getWeight();
-        this.category = new ProductCategoryDto(product.getCategory());
+
+        if (product.getCategory() != null) {
+            this.category = new ProductCategoryDto(product.getCategory());
+        } else {
+            this.category = null;
+        }
     }
 }

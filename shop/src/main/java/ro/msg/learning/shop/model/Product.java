@@ -23,11 +23,11 @@ public class Product {
     private double weight;
 
     @ManyToOne
-    @JoinColumn(name = "category", nullable = false)
+    @JoinColumn(name = "category")
     private ProductCategory category;
 
     @ManyToOne
-    @JoinColumn(name = "supplier", nullable = false)
+    @JoinColumn(name = "supplier")
     private Supplier supplier;
 
     private String imageUrl;
