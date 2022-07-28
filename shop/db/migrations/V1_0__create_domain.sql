@@ -41,7 +41,8 @@ CREATE TABLE IF NOT EXISTS location (
 CREATE TABLE IF NOT EXISTS stock (
     product INT NOT NULL REFERENCES product(id),
     location INT NOT NULL REFERENCES location(id),
-    quantity INT NOT NULL CHECK(quantity >= 0)
+    quantity INT NOT NULL CHECK(quantity >= 0),
+    CONSTRAINT pk_stock PRIMARY KEY (product, location)
 );
 
 CREATE TABLE IF NOT EXISTS product_order (
@@ -58,5 +59,6 @@ CREATE TABLE IF NOT EXISTS product_order (
 CREATE TABLE IF NOT EXISTS product_order_detail (
     product_order INT NOT NULL REFERENCES product_order(id),
     product INT NOT NULL REFERENCES product(id),
-    quantity BIGINT NOT NULL CHECK(quantity >= 1)
+    quantity BIGINT NOT NULL CHECK(quantity >= 1),
+    CONSTRAINT pk_product_order_detail PRIMARY KEY (product_order, product)
 );

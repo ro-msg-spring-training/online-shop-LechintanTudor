@@ -10,12 +10,14 @@ import java.util.Set;
 
 @Entity
 @AllArgsConstructor @NoArgsConstructor @Getter @Setter
-public class Supplier {
+public class ProductCategory {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
-    @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY)
+    private String description;
+
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private Set<Product> products;
 }
