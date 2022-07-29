@@ -3,8 +3,10 @@ package ro.msg.learning.shop.controller;
 import org.springframework.web.bind.annotation.*;
 import ro.msg.learning.shop.dto.ProductCategoryDto;
 import ro.msg.learning.shop.dto.ProductWithCategoryDto;
-import ro.msg.learning.shop.dto.SaveProductDto;
+import ro.msg.learning.shop.dto.save.SaveProductCategoryDto;
+import ro.msg.learning.shop.dto.save.SaveProductDto;
 import ro.msg.learning.shop.dto.SupplierDto;
+import ro.msg.learning.shop.dto.save.SaveSupplierDto;
 import ro.msg.learning.shop.service.ProductService;
 
 import java.util.List;
@@ -18,8 +20,8 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    public void saveProduct(@RequestBody SaveProductDto saveProductDto) {
-        productService.saveProduct(saveProductDto);
+    public ProductWithCategoryDto saveProduct(@RequestBody SaveProductDto product) {
+        return new ProductWithCategoryDto(productService.saveProduct(product));
     }
 
     @GetMapping("/products")
@@ -38,8 +40,8 @@ public class ProductController {
     }
 
     @PostMapping("/products/categories")
-    public void saveProductCategory(@RequestBody ProductCategoryDto productCategoryDto) {
-        productService.saveProductCategory(productCategoryDto);
+    public ProductCategoryDto saveProductCategory(@RequestBody SaveProductCategoryDto productCategory) {
+        return new ProductCategoryDto(productService.saveProductCategory(productCategory));
     }
 
     @GetMapping("/products/categories")
@@ -53,8 +55,8 @@ public class ProductController {
     }
 
     @PostMapping("/products/suppliers")
-    public void saveSupplier(@RequestBody SupplierDto supplier) {
-        productService.saveSupplier(supplier);
+    public SupplierDto saveSupplier(@RequestBody SaveSupplierDto supplier) {
+        return new SupplierDto(productService.saveSupplier(supplier));
     }
 
     @GetMapping("/products/suppliers")

@@ -16,16 +16,16 @@ public class ProductWithCategoryDto {
     private final ProductCategoryDto category;
 
     public ProductWithCategoryDto(Product product) {
-        this.id = product.getId();
-        this.name = product.getName();
-        this.description = product.getDescription();
-        this.price = product.getPrice();
-        this.weight = product.getWeight();
+        id = product.getId();
+        name = product.getName();
+        description = product.getDescription();
+        price = product.getPrice();
+        weight = product.getWeight();
 
         if (product.getCategory() != null) {
-            this.category = new ProductCategoryDto(product.getCategory());
+            category = new ProductCategoryDto(product.getCategory());
         } else {
-            this.category = null;
+            category = null;
         }
     }
 }

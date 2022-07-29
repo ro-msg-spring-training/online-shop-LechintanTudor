@@ -1,9 +1,9 @@
 package ro.msg.learning.shop.service;
 
 import org.springframework.stereotype.Service;
-import ro.msg.learning.shop.dto.ProductCategoryDto;
-import ro.msg.learning.shop.dto.SaveProductDto;
-import ro.msg.learning.shop.dto.SupplierDto;
+import ro.msg.learning.shop.dto.save.SaveProductCategoryDto;
+import ro.msg.learning.shop.dto.save.SaveProductDto;
+import ro.msg.learning.shop.dto.save.SaveSupplierDto;
 import ro.msg.learning.shop.model.Product;
 import ro.msg.learning.shop.model.ProductCategory;
 import ro.msg.learning.shop.model.Supplier;
@@ -31,8 +31,8 @@ public class ProductService {
         this.products = products;
     }
 
-    public void saveProductCategory(ProductCategoryDto category) {
-        productCategories.save(category.toProductCategory());
+    public ProductCategory saveProductCategory(SaveProductCategoryDto category) {
+        return productCategories.save(category.toProductCategory());
     }
 
     public Optional<ProductCategory> findProductCategoryById(Long categoryId) {
@@ -49,8 +49,8 @@ public class ProductService {
         }
     }
 
-    public void saveSupplier(SupplierDto supplier) {
-        suppliers.save(supplier.toSupplier());
+    public Supplier saveSupplier(SaveSupplierDto supplier) {
+        return suppliers.save(supplier.toSupplier());
     }
 
     public Optional<Supplier> findSupplierById(Long supplierId) {
@@ -62,7 +62,7 @@ public class ProductService {
     }
 
     @Transactional
-    public void saveProduct(SaveProductDto saveProductDto) {
+    public Product saveProduct(SaveProductDto saveProductDto) {
         var productCategory = productCategories.getReferenceById(saveProductDto.getProductCategory());
         var supplier = suppliers.getReferenceById(saveProductDto.getSupplier());
 
@@ -77,7 +77,7 @@ public class ProductService {
             saveProductDto.getImageUrl()
         );
 
-        products.save(product);
+        return products.save(product);
     }
 
     public Optional<Product> findProductById(Long productId) {
