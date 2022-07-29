@@ -1,12 +1,11 @@
 package ro.msg.learning.shop.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 @AllArgsConstructor @NoArgsConstructor @Getter @Setter
@@ -31,4 +30,23 @@ public class Product {
     private Supplier supplier;
 
     private String imageUrl;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || Hibernate.getClass(this) != Hibernate.getClass(obj)) {
+            return false;
+        }
+
+        var product = (Product) obj;
+        return id != null && Objects.equals(id, product.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
