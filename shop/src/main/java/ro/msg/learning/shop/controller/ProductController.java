@@ -7,6 +7,10 @@ import ro.msg.learning.shop.dto.save.SaveProductCategoryDto;
 import ro.msg.learning.shop.dto.save.SaveProductDto;
 import ro.msg.learning.shop.dto.SupplierDto;
 import ro.msg.learning.shop.dto.save.SaveSupplierDto;
+import ro.msg.learning.shop.exception.EntityNotFoundException;
+import ro.msg.learning.shop.model.Product;
+import ro.msg.learning.shop.model.ProductCategory;
+import ro.msg.learning.shop.model.Supplier;
 import ro.msg.learning.shop.service.ProductService;
 
 import java.util.List;
@@ -31,7 +35,9 @@ public class ProductController {
 
     @GetMapping("/products/{id}")
     public ProductWithCategoryDto findProductWithCategoryById(@PathVariable Long id) {
-        return productService.findProductById(id).map(ProductWithCategoryDto::new).orElseThrow();
+        return productService.findProductById(id)
+            .map(ProductWithCategoryDto::new)
+            .orElseThrow(() -> new EntityNotFoundException(Product.class, id));
     }
 
     @DeleteMapping("/products/{id}")
@@ -51,7 +57,9 @@ public class ProductController {
 
     @GetMapping("/products/categories/{id}")
     public ProductCategoryDto findProductCategoryById(@PathVariable Long id) {
-        return productService.findProductCategoryById(id).map(ProductCategoryDto::new).orElseThrow();
+        return productService.findProductCategoryById(id)
+            .map(ProductCategoryDto::new)
+            .orElseThrow(() -> new EntityNotFoundException(ProductCategory.class, id));
     }
 
     @DeleteMapping("/products/categories/{id}")
@@ -71,7 +79,9 @@ public class ProductController {
 
     @GetMapping("/products/suppliers/{id}")
     public SupplierDto findSupplierById(@PathVariable Long id) {
-        return productService.findSupplierById(id).map(SupplierDto::new).orElseThrow();
+        return productService.findSupplierById(id)
+            .map(SupplierDto::new)
+            .orElseThrow(() -> new EntityNotFoundException(Supplier.class, id));
     }
 
     @DeleteMapping("/products/suppliers/{id}")
