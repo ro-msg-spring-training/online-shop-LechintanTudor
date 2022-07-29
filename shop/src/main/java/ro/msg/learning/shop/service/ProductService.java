@@ -43,6 +43,7 @@ public class ProductService {
         return productCategories.findAll();
     }
 
+    @Transactional
     public void deleteProductCategoryById(Long categoryId) {
         if (productCategories.existsById(categoryId)) {
             productCategories.deleteById(categoryId);
@@ -59,6 +60,13 @@ public class ProductService {
 
     public List<Supplier> findAllSuppliers() {
         return suppliers.findAll();
+    }
+
+    @Transactional
+    public void deleteSupplierById(Long supplierId) {
+        if (suppliers.existsById(supplierId)) {
+            suppliers.deleteById(supplierId);
+        }
     }
 
     @Transactional

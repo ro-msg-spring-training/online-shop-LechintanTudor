@@ -49,6 +49,11 @@ public class ProductController {
         return productService.findAllProductCategories().stream().map(ProductCategoryDto::new).toList();
     }
 
+    @GetMapping("/products/categories/{id}")
+    public ProductCategoryDto findProductCategoryById(@PathVariable Long id) {
+        return productService.findProductCategoryById(id).map(ProductCategoryDto::new).orElseThrow();
+    }
+
     @DeleteMapping("/products/categories/{id}")
     public void deleteProductCategoryById(@PathVariable Long id) {
         productService.deleteProductCategoryById(id);
@@ -62,5 +67,15 @@ public class ProductController {
     @GetMapping("/products/suppliers")
     public List<SupplierDto> findAllSuppliers() {
         return productService.findAllSuppliers().stream().map(SupplierDto::new).toList();
+    }
+
+    @GetMapping("/products/suppliers/{id}")
+    public SupplierDto findSupplierById(@PathVariable Long id) {
+        return productService.findSupplierById(id).map(SupplierDto::new).orElseThrow();
+    }
+
+    @DeleteMapping("/products/suppliers/{id}")
+    public void deleteSupplierById(@PathVariable Long id) {
+        productService.deleteSupplierById(id);
     }
 }
