@@ -81,6 +81,7 @@ public class ProductService {
         product.setWeight(productDto.getWeight());
         product.setCategory(productCategory);
         product.setSupplier(supplier);
+        product.setImageUrl(productDto.getImageUrl());
 
         return products.save(product);
     }
