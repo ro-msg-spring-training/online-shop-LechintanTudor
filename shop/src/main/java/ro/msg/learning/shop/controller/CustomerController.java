@@ -10,6 +10,7 @@ import ro.msg.learning.shop.service.CustomerService;
 import java.util.List;
 
 @RestController
+@RequestMapping("/customers")
 public class CustomerController {
     private final CustomerService customerService;
 
@@ -17,24 +18,24 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @PostMapping("/customers")
+    @PostMapping
     public CustomerDto saveCustomer(@RequestBody SaveCustomerDto customer) {
         return new CustomerDto(this.customerService.saveCustomer(customer));
     }
 
-    @GetMapping("/customers")
+    @GetMapping
     public List<CustomerDto> findAllCustomers() {
         return this.customerService.findAllCustomers().stream().map(CustomerDto::new).toList();
     }
 
-    @GetMapping("/customers/{id}")
+    @GetMapping("/{id}")
     public CustomerDto findCustomer(@PathVariable Long id) {
         return this.customerService.findCustomerById(id)
             .map(CustomerDto::new)
             .orElseThrow(() -> new EntityNotFoundException(Customer.class, id));
     }
 
-    @DeleteMapping("/customers/{id}")
+    @DeleteMapping("/{id}")
     public void deleteCustomer(@PathVariable Long id) {
        this.customerService.deleteCustomerById(id);
     }

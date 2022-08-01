@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS location (
     country NVARCHAR(60) NOT NULL,
     city NVARCHAR(60) NOT NULL,
     county NVARCHAR(60) NOT NULL,
-    address NVARCHAR(120) NOT NULL
+    street NVARCHAR(120) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS stock (
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS product_order (
     country NVARCHAR(60) NOT NULL,
     city NVARCHAR(60) NOT NULL,
     county NVARCHAR(60) NOT NULL,
-    address NVARCHAR(120) NOT NULL
+    street NVARCHAR(120) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS product_order_detail (

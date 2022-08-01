@@ -1,9 +1,10 @@
 package ro.msg.learning.shop.dto;
 
 import lombok.Getter;
+import lombok.ToString;
 import ro.msg.learning.shop.model.Customer;
 
-@Getter
+@Getter @ToString
 public class CustomerDto {
     private final Long id;
     private final String firstName;

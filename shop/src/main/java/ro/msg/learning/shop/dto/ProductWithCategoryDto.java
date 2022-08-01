@@ -1,12 +1,12 @@
 package ro.msg.learning.shop.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 import ro.msg.learning.shop.model.Product;
 
 import java.math.BigDecimal;
 
-@AllArgsConstructor @Getter
+@Getter @ToString
 public class ProductWithCategoryDto {
     private final Long id;
     private final String name;

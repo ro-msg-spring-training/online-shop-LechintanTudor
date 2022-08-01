@@ -1,10 +1,10 @@
 package ro.msg.learning.shop.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 import ro.msg.learning.shop.model.ProductCategory;
 
-@AllArgsConstructor @Getter
+@Getter @ToString
 public class ProductCategoryDto {
     private final Long id;
     private final String name;

@@ -1,16 +1,16 @@
 package ro.msg.learning.shop.dto.save;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 import ro.msg.learning.shop.model.Customer;
 
-@AllArgsConstructor @Getter
+@Data
+@NoArgsConstructor
 public class SaveCustomerDto {
-    private final String firstName;
-    private final String lastName;
-    private final String username;
-    private final String password;
-    private final String email;
+    private String firstName;
+    private String lastName;
+    private String username;
+    private String password;
+    private String email;
 
     public Customer toCustomer() {
         return new Customer(null, firstName, lastName, username, password, email);

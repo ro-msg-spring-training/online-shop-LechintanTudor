@@ -16,6 +16,7 @@ import ro.msg.learning.shop.service.ProductService;
 import java.util.List;
 
 @RestController
+@RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
 
@@ -23,68 +24,69 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping("/products")
+    @PostMapping
     public ProductWithCategoryDto saveProduct(@RequestBody SaveProductDto product) {
         return new ProductWithCategoryDto(productService.saveProduct(product));
     }
 
-    @GetMapping("/products")
+    @GetMapping
     public List<ProductWithCategoryDto> findAllProductsWithCategories() {
         return productService.findAllProducts().stream().map(ProductWithCategoryDto::new).toList();
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("/{id}")
     public ProductWithCategoryDto findProductWithCategoryById(@PathVariable Long id) {
         return productService.findProductById(id)
             .map(ProductWithCategoryDto::new)
             .orElseThrow(() -> new EntityNotFoundException(Product.class, id));
     }
 
-    @DeleteMapping("/products/{id}")
+    @DeleteMapping("/{id}")
     public void deleteProductById(@PathVariable Long id) {
         productService.deleteProductById(id);
     }
 
-    @PostMapping("/products/categories")
+    @PostMapping("/categories")
     public ProductCategoryDto saveProductCategory(@RequestBody SaveProductCategoryDto productCategory) {
         return new ProductCategoryDto(productService.saveProductCategory(productCategory));
     }
 
-    @GetMapping("/products/categories")
+    @GetMapping("/categories")
     public List<ProductCategoryDto> findAllProductCategories() {
         return productService.findAllProductCategories().stream().map(ProductCategoryDto::new).toList();
     }
 
-    @GetMapping("/products/categories/{id}")
+    @GetMapping("/categories/{id}")
     public ProductCategoryDto findProductCategoryById(@PathVariable Long id) {
         return productService.findProductCategoryById(id)
             .map(ProductCategoryDto::new)
             .orElseThrow(() -> new EntityNotFoundException(ProductCategory.class, id));
     }
 
-    @DeleteMapping("/products/categories/{id}")
+    @DeleteMapping("/categories/{id}")
     public void deleteProductCategoryById(@PathVariable Long id) {
         productService.deleteProductCategoryById(id);
     }
 
-    @PostMapping("/products/suppliers")
+    @PostMapping("/suppliers")
     public SupplierDto saveSupplier(@RequestBody SaveSupplierDto supplier) {
+        System.out.println(supplier);
         return new SupplierDto(productService.saveSupplier(supplier));
     }
 
-    @GetMapping("/products/suppliers")
+    @GetMapping("/suppliers")
     public List<SupplierDto> findAllSuppliers() {
         return productService.findAllSuppliers().stream().map(SupplierDto::new).toList();
     }
 
-    @GetMapping("/products/suppliers/{id}")
+    @GetMapping("/suppliers/{id}")
     public SupplierDto findSupplierById(@PathVariable Long id) {
         return productService.findSupplierById(id)
             .map(SupplierDto::new)
             .orElseThrow(() -> new EntityNotFoundException(Supplier.class, id));
     }
 
-    @DeleteMapping("/products/suppliers/{id}")
+    @DeleteMapping("/suppliers/{id}")
     public void deleteSupplierById(@PathVariable Long id) {
         productService.deleteSupplierById(id);
     }
