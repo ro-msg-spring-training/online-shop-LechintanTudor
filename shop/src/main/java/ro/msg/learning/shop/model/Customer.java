@@ -6,12 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
+@Table(name = "customer")
 @Entity
 @AllArgsConstructor @NoArgsConstructor @Getter @Setter
 public class Customer {
@@ -27,6 +26,9 @@ public class Customer {
     private String password;
 
     private String email;
+
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
+    private Set<ProductOrder> productOrders;
 
     @Override
     public boolean equals(Object obj) {

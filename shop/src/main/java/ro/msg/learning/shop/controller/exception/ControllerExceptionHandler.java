@@ -8,7 +8,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import ro.msg.learning.shop.exception.EntityNotFoundException;
 
-@RestControllerAdvice
+//@RestControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Object> handleEntityNotFound(RuntimeException exception,  WebRequest request) {

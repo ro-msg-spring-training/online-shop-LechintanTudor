@@ -10,7 +10,7 @@ public class SaveProductDto {
     private String description;
     private BigDecimal price;
     private double weight;
-    private long productCategory;
-    private long supplier;
+    private long categoryId;
+    private long supplierId;
     private String imageUrl;
 }

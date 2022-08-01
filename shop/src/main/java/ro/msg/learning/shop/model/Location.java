@@ -8,7 +8,9 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
+@Table(name = "location")
 @Entity
 @AllArgsConstructor @NoArgsConstructor @Getter @Setter
 public class Location {
@@ -19,6 +21,9 @@ public class Location {
 
     @Embedded
     private Address address;
+
+    @OneToMany(mappedBy = "shippedFrom", fetch = FetchType.LAZY)
+    private Set<ProductOrder> productOrders;
 
     @Override
     public boolean equals(Object obj) {

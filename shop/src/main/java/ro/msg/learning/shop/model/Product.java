@@ -5,8 +5,10 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
+@Table(name = "product")
 @Entity
 @AllArgsConstructor @NoArgsConstructor @Getter @Setter
 public class Product {
@@ -22,12 +24,15 @@ public class Product {
     private double weight;
 
     @ManyToOne
-    @JoinColumn(name = "category")
+    @JoinColumn(name = "category_id")
     private ProductCategory category;
 
     @ManyToOne
-    @JoinColumn(name = "supplier")
+    @JoinColumn(name = "supplier_id")
     private Supplier supplier;
+
+    @OneToMany(mappedBy = "product")
+    private List<ProductOrderDetail> orderDetails;
 
     private String imageUrl;
 

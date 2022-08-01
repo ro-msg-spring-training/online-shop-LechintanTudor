@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
+@Table(name = "product_category")
 @Entity
 @AllArgsConstructor @NoArgsConstructor @Getter @Setter
 public class ProductCategory {

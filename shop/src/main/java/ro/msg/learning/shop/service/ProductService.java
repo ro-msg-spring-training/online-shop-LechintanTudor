@@ -70,20 +70,17 @@ public class ProductService {
     }
 
     @Transactional
-    public Product saveProduct(SaveProductDto saveProductDto) {
-        var productCategory = productCategories.getReferenceById(saveProductDto.getProductCategory());
-        var supplier = suppliers.getReferenceById(saveProductDto.getSupplier());
+    public Product saveProduct(SaveProductDto productDto) {
+        var productCategory = productCategories.getReferenceById(productDto.getCategoryId());
+        var supplier = suppliers.getReferenceById(productDto.getSupplierId());
 
-        var product = new Product(
-            null,
-            saveProductDto.getName(),
-            saveProductDto.getDescription(),
-            saveProductDto.getPrice(),
-            saveProductDto.getWeight(),
-            productCategory,
-            supplier,
-            saveProductDto.getImageUrl()
-        );
+        var product = new Product();
+        product.setName(productDto.getName());
+        product.setDescription(productDto.getDescription());
+        product.setPrice(productDto.getPrice());
+        product.setWeight(productDto.getWeight());
+        product.setCategory(productCategory);
+        product.setSupplier(supplier);
 
         return products.save(product);
     }

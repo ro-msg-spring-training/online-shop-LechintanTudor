@@ -12,6 +12,9 @@ public class SaveLocationDto implements Serializable {
     private Address address;
 
     public Location toLocation() {
-        return new Location(null, name, address);
+        var location = new Location();
+        location.setName(name);
+        location.setAddress(address);
+        return location;
     }
 }

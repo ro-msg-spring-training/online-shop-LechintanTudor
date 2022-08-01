@@ -13,6 +13,12 @@ public class SaveCustomerDto {
     private String email;
 
     public Customer toCustomer() {
-        return new Customer(null, firstName, lastName, username, password, email);
+        var customer = new Customer();
+        customer.setFirstName(firstName);
+        customer.setLastName(lastName);
+        customer.setUsername(username);
+        customer.setPassword(password);
+        customer.setEmail(email);
+        return customer;
     }
 }
