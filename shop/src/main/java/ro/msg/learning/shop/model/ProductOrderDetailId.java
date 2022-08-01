@@ -5,6 +5,6 @@ import java.io.Serializable;
 
 @Data
 public class ProductOrderDetailId implements Serializable {
-    private ProductOrder order;
-    private Product product;
+    private Long order;
+    private Long product;
 }

@@ -36,6 +36,7 @@ public class ProductOrderService {
         var customer = customers.getReferenceById(orderDto.getCustomerId());
         var location = locations.getReferenceById(1L);
 
+        // Save order without details
         var order = new ProductOrder();
         order.setShippedFrom(location);
         order.setCustomer(customer);
@@ -43,11 +44,14 @@ public class ProductOrderService {
         order.setAddress(orderDto.getAddress());
         orders.save(order);
 
+        // Save order details
         var details = orderDto.getDetails().stream()
             .map(detailDto -> {
+                var product = products.getReferenceById(detailDto.getProductId());
+
                 var detail = new ProductOrderDetail();
                 detail.setOrder(order);
-                detail.setProduct(products.getReferenceById(detailDto.getProductId()));
+                detail.setProduct(product);
                 detail.setQuantity(detailDto.getQuantity());
                 return detail;
             })
@@ -55,6 +59,8 @@ public class ProductOrderService {
 
         orderDetails.saveAll(details);
 
-        return order;
+        // Save order with details
+        order.setDetails(details);
+        return orders.save(order);
     }
 }
