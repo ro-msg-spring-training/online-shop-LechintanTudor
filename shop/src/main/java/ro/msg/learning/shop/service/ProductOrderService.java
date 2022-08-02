@@ -1,13 +1,13 @@
 package ro.msg.learning.shop.service;
 
 import org.springframework.stereotype.Service;
+import ro.msg.learning.shop.exception.EntityNotFoundException;
+import ro.msg.learning.shop.model.Customer;
+import ro.msg.learning.shop.model.Product;
 import ro.msg.learning.shop.model.ProductOrder;
-import ro.msg.learning.shop.model.ProductOrderDetail;
-import ro.msg.learning.shop.model.info.ProductOrderInfo;
 import ro.msg.learning.shop.repository.*;
 
 import javax.transaction.Transactional;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductOrderService {
@@ -32,35 +32,29 @@ public class ProductOrderService {
     }
 
     @Transactional
-    public ProductOrder saveProductOrder(ProductOrderInfo saveOrder) {
-        var customer = customerRepository.getReferenceById(saveOrder.getCustomerId());
-        var location = locationRepository.getReferenceById(1L);
+    public ProductOrder saveProductOrder(ProductOrder order) {
+        var customerId = order.getCustomer().getId();
+        var customer = customerRepository
+            .findById(customerId)
+            .orElseThrow(() -> new EntityNotFoundException(Customer.class, customerId));
 
-        // Save order without details
-        var order = new ProductOrder();
-        order.setShippedFrom(location);
+        var shippedFrom = locationRepository.getReferenceById(1L);
+
         order.setCustomer(customer);
-        order.setCreatedAt(saveOrder.getCreatedAt());
-        order.setAddress(saveOrder.getAddress());
-        orderRepository.save(order);
+        order.setShippedFrom(shippedFrom);
 
-        // Save order details
-        var details = saveOrder.getDetails().stream()
-            .map(detailDto -> {
-                var product = productRepository.getReferenceById(detailDto.getProductId());
+        order.getDetails().forEach(detail -> {
+            var productId = detail.getProduct().getId();
+            var product = productRepository
+                .findById(productId)
+                .orElseThrow(() -> new EntityNotFoundException(Product.class, productId));
 
-                var detail = new ProductOrderDetail();
-                detail.setOrder(order);
-                detail.setProduct(product);
-                detail.setQuantity(detailDto.getQuantity());
-                return detail;
-            })
-            .collect(Collectors.toSet());
+            detail.setOrder(order);
+            detail.setProduct(product);
+        });
 
-        orderDetailRepository.saveAll(details);
-
-        // Save order with details
-        order.setDetails(details);
-        return orderRepository.save(order);
+        var savedOrder = orderRepository.save(order);
+        orderDetailRepository.saveAll(order.getDetails());
+        return savedOrder;
     }
 }

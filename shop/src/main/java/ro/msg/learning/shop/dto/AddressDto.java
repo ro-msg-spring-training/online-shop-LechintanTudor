@@ -1,12 +1,10 @@
 package ro.msg.learning.shop.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Builder;
+import lombok.Data;
 
-@AllArgsConstructor
-@Getter
-@ToString
+@Data
+@Builder
 public class AddressDto {
     private final String country;
     private final String city;

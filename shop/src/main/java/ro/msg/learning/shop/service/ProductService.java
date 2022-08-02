@@ -1,12 +1,10 @@
 package ro.msg.learning.shop.service;
 
 import org.springframework.stereotype.Service;
+import ro.msg.learning.shop.exception.EntityNotFoundException;
 import ro.msg.learning.shop.model.Product;
 import ro.msg.learning.shop.model.ProductCategory;
 import ro.msg.learning.shop.model.Supplier;
-import ro.msg.learning.shop.model.info.ProductCategoryInfo;
-import ro.msg.learning.shop.model.info.ProductInfo;
-import ro.msg.learning.shop.model.info.SupplierInfo;
 import ro.msg.learning.shop.repository.ProductCategoryRepository;
 import ro.msg.learning.shop.repository.ProductRepository;
 import ro.msg.learning.shop.repository.SupplierRepository;
@@ -31,8 +29,8 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public ProductCategory saveProductCategory(ProductCategoryInfo productCategoryInfo) {
-        return categoryRepository.save(productCategoryInfo.toProductCategory());
+    public ProductCategory saveProductCategory(ProductCategory productCategory) {
+        return categoryRepository.save(productCategory);
     }
 
     public Optional<ProductCategory> findProductCategoryById(Long categoryId) {
@@ -50,8 +48,8 @@ public class ProductService {
         }
     }
 
-    public Supplier saveSupplier(SupplierInfo supplierInfo) {
-        return supplierRepository.save(supplierInfo.toSupplier());
+    public Supplier saveSupplier(Supplier supplier) {
+        return supplierRepository.save(supplier);
     }
 
     public Optional<Supplier> findSupplierById(Long supplierId) {
@@ -70,18 +68,20 @@ public class ProductService {
     }
 
     @Transactional
-    public Product saveProduct(ProductInfo productInfo) {
-        var productCategory = categoryRepository.getReferenceById(productInfo.getCategoryId());
-        var supplier = supplierRepository.getReferenceById(productInfo.getSupplierId());
+    public Product saveProduct(Product product) {
+        var categoryId = product.getCategory().getId();
+        var category = categoryRepository
+            .findById(categoryId)
+            .orElseThrow(() -> new EntityNotFoundException(ProductCategory.class, categoryId));
 
-        var product = new Product();
-        product.setName(productInfo.getName());
-        product.setDescription(productInfo.getDescription());
-        product.setPrice(productInfo.getPrice());
-        product.setWeight(productInfo.getWeight());
-        product.setCategory(productCategory);
+        var supplierId = product.getSupplier().getId();
+        var supplier = supplierRepository
+            .findById(supplierId)
+            .orElseThrow(() -> new EntityNotFoundException(Supplier.class, supplierId));
+
+
+        product.setCategory(category);
         product.setSupplier(supplier);
-        product.setImageUrl(productInfo.getImageUrl());
 
         return productRepository.save(product);
     }

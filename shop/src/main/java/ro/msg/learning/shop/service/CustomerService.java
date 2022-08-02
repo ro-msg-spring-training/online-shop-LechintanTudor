@@ -2,7 +2,6 @@ package ro.msg.learning.shop.service;
 
 import org.springframework.stereotype.Service;
 import ro.msg.learning.shop.model.Customer;
-import ro.msg.learning.shop.model.info.CustomerInfo;
 import ro.msg.learning.shop.repository.CustomerRepository;
 
 import javax.transaction.Transactional;
@@ -17,8 +16,8 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Customer saveCustomer(CustomerInfo customerInfo) {
-        return customerRepository.save(customerInfo.toCustomer());
+    public Customer saveCustomer(Customer customer) {
+        return customerRepository.save(customer);
     }
 
     public Optional<Customer> findCustomerById(Long customerId) {

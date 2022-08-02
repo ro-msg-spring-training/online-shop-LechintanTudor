@@ -1,28 +1,28 @@
 package ro.msg.learning.shop.dto;
 
-import lombok.Getter;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ro.msg.learning.shop.model.Address;
-import ro.msg.learning.shop.model.ProductOrder;
 
 import java.time.LocalDateTime;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-@Getter
-@ToString
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductOrderDto {
-    private final Long id;
-    private final Long customerId;
-    private final LocalDateTime createdAt;
-    private final Address address;
-    private final Set<ProductOrderDetailDto> details;
+    private Long id;
 
-    public ProductOrderDto(ProductOrder order) {
-        this.id = order.getId();
-        this.customerId = order.getCustomer().getId();
-        this.createdAt = order.getCreatedAt();
-        this.address = order.getAddress();
-        this.details = order.getDetails().stream().map(ProductOrderDetailDto::new).collect(Collectors.toSet());
-    }
+    private Long customerId;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", shape = JsonFormat.Shape.STRING)
+    private LocalDateTime createdAt;
+
+    private Address address;
+
+    private Set<ProductOrderDetailDto> details;
 }

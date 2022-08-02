@@ -1,8 +1,6 @@
 package ro.msg.learning.shop.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -11,6 +9,8 @@ import java.util.Objects;
 @Table(name = "product_order_detail")
 @Entity
 @IdClass(ProductOrderDetailId.class)
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
