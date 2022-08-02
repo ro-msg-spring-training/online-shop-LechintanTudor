@@ -20,7 +20,6 @@ public class LocationController {
 
     @PostMapping
     public LocationDto saveLocation(@RequestBody SaveLocationDto location) {
-        System.out.printf("%s\n", location.toString());
         return new LocationDto(locationService.saveLocation(location));
     }
 

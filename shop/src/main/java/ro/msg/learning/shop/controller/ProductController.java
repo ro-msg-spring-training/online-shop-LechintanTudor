@@ -70,7 +70,6 @@ public class ProductController {
 
     @PostMapping("/suppliers")
     public SupplierDto saveSupplier(@RequestBody SaveSupplierDto supplier) {
-        System.out.println(supplier);
         return new SupplierDto(productService.saveSupplier(supplier));
     }
 
