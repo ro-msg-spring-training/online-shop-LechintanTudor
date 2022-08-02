@@ -2,9 +2,9 @@ package ro.msg.learning.shop.controller;
 
 import org.springframework.web.bind.annotation.*;
 import ro.msg.learning.shop.dto.CustomerDto;
-import ro.msg.learning.shop.dto.save.SaveCustomerDto;
 import ro.msg.learning.shop.exception.EntityNotFoundException;
 import ro.msg.learning.shop.model.Customer;
+import ro.msg.learning.shop.model.info.CustomerInfo;
 import ro.msg.learning.shop.service.CustomerService;
 
 import java.util.List;
@@ -19,8 +19,8 @@ public class CustomerController {
     }
 
     @PostMapping
-    public CustomerDto saveCustomer(@RequestBody SaveCustomerDto customer) {
-        return new CustomerDto(this.customerService.saveCustomer(customer));
+    public CustomerDto saveCustomer(@RequestBody CustomerInfo customerInfo) {
+        return new CustomerDto(this.customerService.saveCustomer(customerInfo));
     }
 
     @GetMapping

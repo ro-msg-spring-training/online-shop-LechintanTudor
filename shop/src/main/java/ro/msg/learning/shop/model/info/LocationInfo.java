@@ -1,4 +1,4 @@
-package ro.msg.learning.shop.dto.save;
+package ro.msg.learning.shop.model.info;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
-public class SaveLocationDto implements Serializable {
+public class LocationInfo implements Serializable {
     private String name;
     private Address address;
 

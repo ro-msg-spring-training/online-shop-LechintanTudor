@@ -2,9 +2,9 @@ package ro.msg.learning.shop.controller;
 
 import org.springframework.web.bind.annotation.*;
 import ro.msg.learning.shop.dto.LocationDto;
-import ro.msg.learning.shop.dto.save.SaveLocationDto;
 import ro.msg.learning.shop.exception.EntityNotFoundException;
 import ro.msg.learning.shop.model.Location;
+import ro.msg.learning.shop.model.info.LocationInfo;
 import ro.msg.learning.shop.service.LocationService;
 
 import java.util.List;
@@ -19,8 +19,8 @@ public class LocationController {
     }
 
     @PostMapping
-    public LocationDto saveLocation(@RequestBody SaveLocationDto location) {
-        return new LocationDto(locationService.saveLocation(location));
+    public LocationDto saveLocation(@RequestBody LocationInfo locationInfo) {
+        return new LocationDto(locationService.saveLocation(locationInfo));
     }
 
     @GetMapping

@@ -1,4 +1,4 @@
-package ro.msg.learning.shop.dto.save;
+package ro.msg.learning.shop.model.info;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -6,7 +6,7 @@ import ro.msg.learning.shop.model.Customer;
 
 @Data
 @NoArgsConstructor
-public class SaveCustomerDto {
+public class CustomerInfo {
     private String firstName;
     private String lastName;
     private String username;

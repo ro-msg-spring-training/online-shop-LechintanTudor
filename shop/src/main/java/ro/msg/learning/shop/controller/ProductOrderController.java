@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.msg.learning.shop.dto.ProductOrderDto;
-import ro.msg.learning.shop.dto.save.SaveProductOrderDto;
+import ro.msg.learning.shop.model.info.ProductOrderInfo;
 import ro.msg.learning.shop.service.ProductOrderService;
 
 @RestController
@@ -18,7 +18,7 @@ public class ProductOrderController {
     }
 
     @PostMapping
-    public ProductOrderDto saveOrder(@RequestBody SaveProductOrderDto order) {
+    public ProductOrderDto saveOrder(@RequestBody ProductOrderInfo order) {
         return new ProductOrderDto(orderService.saveProductOrder(order));
     }
 }

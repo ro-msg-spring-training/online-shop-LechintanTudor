@@ -4,13 +4,13 @@ import org.springframework.web.bind.annotation.*;
 import ro.msg.learning.shop.dto.ProductCategoryDto;
 import ro.msg.learning.shop.dto.ProductWithCategoryDto;
 import ro.msg.learning.shop.dto.SupplierDto;
-import ro.msg.learning.shop.dto.save.SaveProductCategoryDto;
-import ro.msg.learning.shop.dto.save.SaveProductDto;
-import ro.msg.learning.shop.dto.save.SaveSupplierDto;
 import ro.msg.learning.shop.exception.EntityNotFoundException;
 import ro.msg.learning.shop.model.Product;
 import ro.msg.learning.shop.model.ProductCategory;
 import ro.msg.learning.shop.model.Supplier;
+import ro.msg.learning.shop.model.info.ProductCategoryInfo;
+import ro.msg.learning.shop.model.info.ProductInfo;
+import ro.msg.learning.shop.model.info.SupplierInfo;
 import ro.msg.learning.shop.service.ProductService;
 
 import java.util.List;
@@ -25,8 +25,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public ProductWithCategoryDto saveProduct(@RequestBody SaveProductDto product) {
-        return new ProductWithCategoryDto(productService.saveProduct(product));
+    public ProductWithCategoryDto saveProduct(@RequestBody ProductInfo productInfo) {
+        return new ProductWithCategoryDto(productService.saveProduct(productInfo));
     }
 
     @GetMapping
@@ -47,8 +47,8 @@ public class ProductController {
     }
 
     @PostMapping("/categories")
-    public ProductCategoryDto saveProductCategory(@RequestBody SaveProductCategoryDto productCategory) {
-        return new ProductCategoryDto(productService.saveProductCategory(productCategory));
+    public ProductCategoryDto saveProductCategory(@RequestBody ProductCategoryInfo productCategoryInfo) {
+        return new ProductCategoryDto(productService.saveProductCategory(productCategoryInfo));
     }
 
     @GetMapping("/categories")
@@ -69,8 +69,8 @@ public class ProductController {
     }
 
     @PostMapping("/suppliers")
-    public SupplierDto saveSupplier(@RequestBody SaveSupplierDto supplier) {
-        return new SupplierDto(productService.saveSupplier(supplier));
+    public SupplierDto saveSupplier(@RequestBody SupplierInfo supplierInfo) {
+        return new SupplierDto(productService.saveSupplier(supplierInfo));
     }
 
     @GetMapping("/suppliers")

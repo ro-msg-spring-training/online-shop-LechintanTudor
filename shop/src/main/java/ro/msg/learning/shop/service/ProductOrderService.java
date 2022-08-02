@@ -1,9 +1,9 @@
 package ro.msg.learning.shop.service;
 
 import org.springframework.stereotype.Service;
-import ro.msg.learning.shop.dto.save.SaveProductOrderDto;
 import ro.msg.learning.shop.model.ProductOrder;
 import ro.msg.learning.shop.model.ProductOrderDetail;
+import ro.msg.learning.shop.model.info.ProductOrderInfo;
 import ro.msg.learning.shop.repository.*;
 
 import javax.transaction.Transactional;
@@ -32,20 +32,20 @@ public class ProductOrderService {
     }
 
     @Transactional
-    public ProductOrder saveProductOrder(SaveProductOrderDto orderDto) {
-        var customer = customerRepository.getReferenceById(orderDto.getCustomerId());
+    public ProductOrder saveProductOrder(ProductOrderInfo saveOrder) {
+        var customer = customerRepository.getReferenceById(saveOrder.getCustomerId());
         var location = locationRepository.getReferenceById(1L);
 
         // Save order without details
         var order = new ProductOrder();
         order.setShippedFrom(location);
         order.setCustomer(customer);
-        order.setCreatedAt(orderDto.getCreatedAt());
-        order.setAddress(orderDto.getAddress());
+        order.setCreatedAt(saveOrder.getCreatedAt());
+        order.setAddress(saveOrder.getAddress());
         orderRepository.save(order);
 
         // Save order details
-        var details = orderDto.getDetails().stream()
+        var details = saveOrder.getDetails().stream()
             .map(detailDto -> {
                 var product = productRepository.getReferenceById(detailDto.getProductId());
 

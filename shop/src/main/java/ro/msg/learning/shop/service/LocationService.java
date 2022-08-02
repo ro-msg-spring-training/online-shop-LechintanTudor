@@ -1,8 +1,8 @@
 package ro.msg.learning.shop.service;
 
 import org.springframework.stereotype.Service;
-import ro.msg.learning.shop.dto.save.SaveLocationDto;
 import ro.msg.learning.shop.model.Location;
+import ro.msg.learning.shop.model.info.LocationInfo;
 import ro.msg.learning.shop.repository.LocationRepository;
 
 import javax.transaction.Transactional;
@@ -17,8 +17,8 @@ public class LocationService {
         this.locationRepository = locationRepository;
     }
 
-    public Location saveLocation(SaveLocationDto location) {
-        return locationRepository.save(location.toLocation());
+    public Location saveLocation(LocationInfo locationInfo) {
+        return locationRepository.save(locationInfo.toLocation());
     }
 
     public Optional<Location> findLocationById(Long locationId) {

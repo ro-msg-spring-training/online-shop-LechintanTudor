@@ -1,4 +1,4 @@
-package ro.msg.learning.shop.dto.save;
+package ro.msg.learning.shop.model.info;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
-public class SaveProductDto {
+public class ProductInfo {
     private String name;
     private String description;
     private BigDecimal price;

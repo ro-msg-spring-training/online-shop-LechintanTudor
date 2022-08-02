@@ -1,4 +1,4 @@
-package ro.msg.learning.shop.dto.save;
+package ro.msg.learning.shop.model.info;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class SaveProductOrderDto {
+public class ProductOrderInfo {
     private long customerId;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", shape = JsonFormat.Shape.STRING)
@@ -18,5 +18,5 @@ public class SaveProductOrderDto {
 
     private Address address;
 
-    private List<SaveProductOrderDetailDto> details;
+    private List<ProductOrderDetailInfo> details;
 }
