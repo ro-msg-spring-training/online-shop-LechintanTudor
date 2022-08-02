@@ -5,7 +5,8 @@ import lombok.ToString;
 import ro.msg.learning.shop.model.Address;
 import ro.msg.learning.shop.model.Location;
 
-@Getter @ToString
+@Getter
+@ToString
 public class LocationDto {
     private final Long id;
     private final String name;

@@ -6,7 +6,11 @@ import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
-@AllArgsConstructor @NoArgsConstructor @Getter @Setter @ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class Address implements Serializable {
     private String country;
     private String city;

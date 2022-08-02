@@ -4,7 +4,8 @@ import lombok.Getter;
 import lombok.ToString;
 import ro.msg.learning.shop.model.Customer;
 
-@Getter @ToString
+@Getter
+@ToString
 public class CustomerDto {
     private final Long id;
     private final String firstName;

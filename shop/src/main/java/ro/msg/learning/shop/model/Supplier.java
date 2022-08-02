@@ -12,9 +12,13 @@ import java.util.Set;
 
 @Table(name = "supplier")
 @Entity
-@AllArgsConstructor @NoArgsConstructor @Getter @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Supplier {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;

@@ -9,8 +9,11 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Table(name = "product_order_detail")
-@Entity @IdClass(ProductOrderDetailId.class)
-@NoArgsConstructor @Getter @Setter
+@Entity
+@IdClass(ProductOrderDetailId.class)
+@NoArgsConstructor
+@Getter
+@Setter
 public class ProductOrderDetail {
     @Id
     @ManyToOne

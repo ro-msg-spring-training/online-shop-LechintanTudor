@@ -4,7 +4,8 @@ import lombok.Getter;
 import lombok.ToString;
 import ro.msg.learning.shop.model.ProductOrderDetail;
 
-@Getter @ToString
+@Getter
+@ToString
 public class ProductOrderDetailDto {
     private final Long productId;
     private final long quantity;

@@ -11,28 +11,28 @@ import java.util.Optional;
 
 @Service
 public class LocationService {
-    private final LocationRepository locations;
+    private final LocationRepository locationRepository;
 
-    public LocationService(LocationRepository locations) {
-        this.locations = locations;
+    public LocationService(LocationRepository locationRepository) {
+        this.locationRepository = locationRepository;
     }
 
     public Location saveLocation(SaveLocationDto location) {
-        return locations.save(location.toLocation());
+        return locationRepository.save(location.toLocation());
     }
 
     public Optional<Location> findLocationById(Long locationId) {
-        return locations.findById(locationId);
+        return locationRepository.findById(locationId);
     }
 
     public List<Location> findAllLocations() {
-        return locations.findAll();
+        return locationRepository.findAll();
     }
 
     @Transactional
     public void deleteLocationById(Long locationId) {
-        if (locations.existsById(locationId)) {
-            locations.deleteById(locationId);
+        if (locationRepository.existsById(locationId)) {
+            locationRepository.deleteById(locationId);
         }
     }
 }

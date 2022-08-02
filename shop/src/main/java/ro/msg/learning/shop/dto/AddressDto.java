@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
-@AllArgsConstructor @Getter @ToString
+@AllArgsConstructor
+@Getter
+@ToString
 public class AddressDto {
     private final String country;
     private final String city;

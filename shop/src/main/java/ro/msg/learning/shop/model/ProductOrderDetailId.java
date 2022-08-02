@@ -1,6 +1,7 @@
 package ro.msg.learning.shop.model;
 
 import lombok.Data;
+
 import java.io.Serializable;
 
 @Data

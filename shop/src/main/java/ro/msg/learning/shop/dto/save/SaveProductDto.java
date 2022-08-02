@@ -1,10 +1,12 @@
 package ro.msg.learning.shop.dto.save;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
-@Data @NoArgsConstructor
+@Data
+@NoArgsConstructor
 public class SaveProductDto {
     private String name;
     private String description;

@@ -1,6 +1,7 @@
 package ro.msg.learning.shop.dto.save;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ro.msg.learning.shop.model.Customer;
 
 @Data

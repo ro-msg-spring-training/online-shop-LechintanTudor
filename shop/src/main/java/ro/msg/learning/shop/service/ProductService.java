@@ -17,62 +17,62 @@ import java.util.Optional;
 
 @Service
 public class ProductService {
-    private final ProductCategoryRepository productCategories;
-    private final SupplierRepository suppliers;
-    private final ProductRepository products;
+    private final ProductCategoryRepository categoryRepository;
+    private final SupplierRepository supplierRepository;
+    private final ProductRepository productRepository;
 
     public ProductService(
-        ProductCategoryRepository productCategories,
-        SupplierRepository suppliers,
-        ProductRepository products
+        ProductCategoryRepository categoryRepository,
+        SupplierRepository supplierRepository,
+        ProductRepository productRepository
     ) {
-        this.productCategories = productCategories;
-        this.suppliers = suppliers;
-        this.products = products;
+        this.categoryRepository = categoryRepository;
+        this.supplierRepository = supplierRepository;
+        this.productRepository = productRepository;
     }
 
     public ProductCategory saveProductCategory(SaveProductCategoryDto category) {
-        return productCategories.save(category.toProductCategory());
+        return categoryRepository.save(category.toProductCategory());
     }
 
     public Optional<ProductCategory> findProductCategoryById(Long categoryId) {
-        return productCategories.findById(categoryId);
+        return categoryRepository.findById(categoryId);
     }
 
     public List<ProductCategory> findAllProductCategories() {
-        return productCategories.findAll();
+        return categoryRepository.findAll();
     }
 
     @Transactional
     public void deleteProductCategoryById(Long categoryId) {
-        if (productCategories.existsById(categoryId)) {
-            productCategories.deleteById(categoryId);
+        if (categoryRepository.existsById(categoryId)) {
+            categoryRepository.deleteById(categoryId);
         }
     }
 
     public Supplier saveSupplier(SaveSupplierDto supplier) {
-        return suppliers.save(supplier.toSupplier());
+        return supplierRepository.save(supplier.toSupplier());
     }
 
     public Optional<Supplier> findSupplierById(Long supplierId) {
-        return suppliers.findById(supplierId);
+        return supplierRepository.findById(supplierId);
     }
 
     public List<Supplier> findAllSuppliers() {
-        return suppliers.findAll();
+        return supplierRepository.findAll();
     }
 
     @Transactional
     public void deleteSupplierById(Long supplierId) {
-        if (suppliers.existsById(supplierId)) {
-            suppliers.deleteById(supplierId);
+        if (supplierRepository.existsById(supplierId)) {
+            supplierRepository.deleteById(supplierId);
         }
     }
 
     @Transactional
     public Product saveProduct(SaveProductDto productDto) {
-        var productCategory = productCategories.getReferenceById(productDto.getCategoryId());
-        var supplier = suppliers.getReferenceById(productDto.getSupplierId());
+        var productCategory = categoryRepository.getReferenceById(productDto.getCategoryId());
+        var supplier = supplierRepository.getReferenceById(productDto.getSupplierId());
 
         var product = new Product();
         product.setName(productDto.getName());
@@ -83,21 +83,21 @@ public class ProductService {
         product.setSupplier(supplier);
         product.setImageUrl(productDto.getImageUrl());
 
-        return products.save(product);
+        return productRepository.save(product);
     }
 
     public Optional<Product> findProductById(Long productId) {
-        return products.findById(productId);
+        return productRepository.findById(productId);
     }
 
     public List<Product> findAllProducts() {
-        return products.findAll();
+        return productRepository.findAll();
     }
 
     @Transactional
     public void deleteProductById(Long productId) {
-        if (products.existsById(productId)) {
-            products.deleteById(productId);
+        if (productRepository.existsById(productId)) {
+            productRepository.deleteById(productId);
         }
     }
 }

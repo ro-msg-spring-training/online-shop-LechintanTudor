@@ -6,7 +6,8 @@ import ro.msg.learning.shop.model.Product;
 
 import java.math.BigDecimal;
 
-@Getter @ToString
+@Getter
+@ToString
 public class ProductWithCategoryDto {
     private final Long id;
     private final String name;

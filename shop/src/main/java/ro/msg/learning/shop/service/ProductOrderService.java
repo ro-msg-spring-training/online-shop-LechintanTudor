@@ -11,30 +11,30 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProductOrderService {
-    private final LocationRepository locations;
-    private final CustomerRepository customers;
-    private final ProductRepository products;
-    private final ProductOrderDetailRepository orderDetails;
-    private final ProductOrderRepository orders;
+    private final LocationRepository locationRepository;
+    private final CustomerRepository customerRepository;
+    private final ProductRepository productRepository;
+    private final ProductOrderDetailRepository orderDetailRepository;
+    private final ProductOrderRepository orderRepository;
 
     public ProductOrderService(
-        LocationRepository locations,
-        CustomerRepository customers,
-        ProductRepository products,
-        ProductOrderDetailRepository orderDetails,
-        ProductOrderRepository orders
+        LocationRepository locationRepository,
+        CustomerRepository customerRepository,
+        ProductRepository productRepository,
+        ProductOrderDetailRepository orderDetailRepository,
+        ProductOrderRepository orderRepository
     ) {
-        this.locations = locations;
-        this.customers = customers;
-        this.products = products;
-        this.orderDetails = orderDetails;
-        this.orders = orders;
+        this.locationRepository = locationRepository;
+        this.customerRepository = customerRepository;
+        this.productRepository = productRepository;
+        this.orderDetailRepository = orderDetailRepository;
+        this.orderRepository = orderRepository;
     }
 
     @Transactional
     public ProductOrder saveProductOrder(SaveProductOrderDto orderDto) {
-        var customer = customers.getReferenceById(orderDto.getCustomerId());
-        var location = locations.getReferenceById(1L);
+        var customer = customerRepository.getReferenceById(orderDto.getCustomerId());
+        var location = locationRepository.getReferenceById(1L);
 
         // Save order without details
         var order = new ProductOrder();
@@ -42,12 +42,12 @@ public class ProductOrderService {
         order.setCustomer(customer);
         order.setCreatedAt(orderDto.getCreatedAt());
         order.setAddress(orderDto.getAddress());
-        orders.save(order);
+        orderRepository.save(order);
 
         // Save order details
         var details = orderDto.getDetails().stream()
             .map(detailDto -> {
-                var product = products.getReferenceById(detailDto.getProductId());
+                var product = productRepository.getReferenceById(detailDto.getProductId());
 
                 var detail = new ProductOrderDetail();
                 detail.setOrder(order);
@@ -57,10 +57,10 @@ public class ProductOrderService {
             })
             .collect(Collectors.toSet());
 
-        orderDetails.saveAll(details);
+        orderDetailRepository.saveAll(details);
 
         // Save order with details
         order.setDetails(details);
-        return orders.save(order);
+        return orderRepository.save(order);
     }
 }

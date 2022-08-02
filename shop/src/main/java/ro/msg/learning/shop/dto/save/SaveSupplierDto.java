@@ -1,9 +1,11 @@
 package ro.msg.learning.shop.dto.save;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ro.msg.learning.shop.model.Supplier;
 
-@Data @NoArgsConstructor
+@Data
+@NoArgsConstructor
 public class SaveSupplierDto {
     private String name;
 

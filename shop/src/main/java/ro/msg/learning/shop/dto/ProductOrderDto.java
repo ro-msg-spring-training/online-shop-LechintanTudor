@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Getter @ToString
+@Getter
+@ToString
 public class ProductOrderDto {
     private final Long id;
     private final Long customerId;

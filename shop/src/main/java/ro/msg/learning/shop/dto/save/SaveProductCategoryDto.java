@@ -1,9 +1,11 @@
 package ro.msg.learning.shop.dto.save;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ro.msg.learning.shop.model.ProductCategory;
 
-@Data @NoArgsConstructor
+@Data
+@NoArgsConstructor
 public class SaveProductCategoryDto {
     private String name;
     private String description;

@@ -1,8 +1,10 @@
 package ro.msg.learning.shop.dto.save;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data @NoArgsConstructor
+@Data
+@NoArgsConstructor
 public class SaveProductOrderDetailDto {
     private long productId;
     private long quantity;

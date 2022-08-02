@@ -1,13 +1,15 @@
 package ro.msg.learning.shop.dto.save;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ro.msg.learning.shop.model.Address;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data @NoArgsConstructor
+@Data
+@NoArgsConstructor
 public class SaveProductOrderDto {
     private long customerId;
 

@@ -11,28 +11,28 @@ import java.util.Optional;
 
 @Service
 public class CustomerService {
-    private final CustomerRepository customers;
+    private final CustomerRepository customerRepository;
 
-    public CustomerService(CustomerRepository customers) {
-        this.customers = customers;
+    public CustomerService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
     }
 
     public Customer saveCustomer(SaveCustomerDto customer) {
-        return customers.save(customer.toCustomer());
+        return customerRepository.save(customer.toCustomer());
     }
 
     public Optional<Customer> findCustomerById(Long customerId) {
-        return customers.findById(customerId);
+        return customerRepository.findById(customerId);
     }
 
     public List<Customer> findAllCustomers() {
-        return customers.findAll();
+        return customerRepository.findAll();
     }
 
     @Transactional
     public void deleteCustomerById(Long customerId) {
-        if (customers.existsById(customerId)) {
-            customers.deleteById(customerId);
+        if (customerRepository.existsById(customerId)) {
+            customerRepository.deleteById(customerId);
         }
     }
 }
