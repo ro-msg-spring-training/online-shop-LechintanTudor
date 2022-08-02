@@ -27,6 +27,9 @@ public class Location {
     @OneToMany(mappedBy = "shippedFrom", fetch = FetchType.LAZY)
     private Set<ProductOrder> productOrders;
 
+    @OneToMany(mappedBy = "location", fetch = FetchType.LAZY)
+    private Set<Stock> stocks;
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

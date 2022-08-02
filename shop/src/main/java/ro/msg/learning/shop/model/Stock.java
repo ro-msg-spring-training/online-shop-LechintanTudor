@@ -2,29 +2,29 @@ package ro.msg.learning.shop.model;
 
 import lombok.*;
 import org.hibernate.Hibernate;
-import ro.msg.learning.shop.model.id.ProductOrderDetailId;
+import ro.msg.learning.shop.model.id.StockId;
 
 import javax.persistence.*;
 import java.util.Objects;
 
-@Table(name = "product_order_detail")
+@Table(name = "stock")
 @Entity
-@IdClass(ProductOrderDetailId.class)
+@IdClass(StockId.class)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class ProductOrderDetail {
+public class Stock {
     @Id
-    @ManyToOne
-    @JoinColumn(name = "product_order_id")
-    private ProductOrder order;
-
-    @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
+
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_id")
+    private Location location;
 
     private Long quantity;
 
@@ -38,12 +38,12 @@ public class ProductOrderDetail {
             return false;
         }
 
-        var details = (ProductOrderDetail) obj;
+        var stock = (Stock) obj;
 
-        return order != null
-            && product != null
-            && Objects.equals(order, details.order)
-            && Objects.equals(product, details.product);
+        return product != null
+            && location != null
+            && Objects.equals(product, stock.product)
+            && Objects.equals(location, stock.location);
     }
 
     @Override
