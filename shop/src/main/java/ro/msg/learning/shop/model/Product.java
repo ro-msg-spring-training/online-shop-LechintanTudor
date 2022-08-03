@@ -6,6 +6,7 @@ import org.hibernate.Hibernate;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.Set;
 
 @Table(name = "product")
 @Entity
@@ -36,6 +37,9 @@ public class Product {
     private Supplier supplier;
 
     private String imageUrl;
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private Set<Stock> stocks;
 
     @Override
     public boolean equals(Object obj) {
