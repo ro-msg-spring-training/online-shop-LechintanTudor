@@ -6,6 +6,7 @@ import ro.msg.learning.shop.model.Customer;
 import ro.msg.learning.shop.model.Product;
 import ro.msg.learning.shop.model.ProductOrder;
 import ro.msg.learning.shop.repository.*;
+import ro.msg.learning.shop.service.exception.NullEntityException;
 import ro.msg.learning.shop.service.order.ProductOrderStrategy;
 
 import javax.transaction.Transactional;
@@ -40,6 +41,10 @@ public class ProductOrderService {
 
     @Transactional
     public ProductOrder saveProductOrder(ProductOrder order) {
+        if (order == null) {
+            throw new NullEntityException(ProductOrder.class);
+        }
+
         var customerId = order.getCustomer().getId();
         var customer = customerRepository
             .findById(customerId)
@@ -47,6 +52,7 @@ public class ProductOrderService {
 
         order.setCustomer(customer);
 
+        // Fill the order details
         order.getDetails().forEach(detail -> {
             var productId = detail.getProduct().getId();
             var product = productRepository
@@ -57,14 +63,14 @@ public class ProductOrderService {
             detail.setProduct(product);
         });
 
-        // Set the first stock location as the shipped from location so we don't have to change the database
+        // Set the first stock location as the shipped from location, so we don't have to change the database schema
         var deliveryStocks = orderStrategy.findDeliveryStocks(order, locationRepository.findAll());
         order.setShippedFrom(deliveryStocks.get(0).getStock().getLocation());
 
         var savedOrder = orderRepository.save(order);
         orderDetailRepository.saveAll(order.getDetails());
 
-        // Substract the products from the affected stocks
+        // Subtract the products from the affected stocks
         for (var deliveryStock : deliveryStocks) {
             var updatedStock = deliveryStock.getStock();
             updatedStock.setQuantity(updatedStock.getQuantity() - deliveryStock.getQuantity());

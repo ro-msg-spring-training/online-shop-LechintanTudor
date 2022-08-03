@@ -8,6 +8,7 @@ import ro.msg.learning.shop.model.Stock;
 import ro.msg.learning.shop.repository.LocationRepository;
 import ro.msg.learning.shop.repository.ProductRepository;
 import ro.msg.learning.shop.repository.StockRepository;
+import ro.msg.learning.shop.service.exception.NullEntityException;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -30,6 +31,10 @@ public class StockService {
 
     @Transactional
     public Stock saveStock(Stock stock) {
+        if (stock == null) {
+            throw new NullEntityException(Stock.class);
+        }
+
         var productId = stock.getProduct().getId();
         var product = productRepository
             .findById(productId)
