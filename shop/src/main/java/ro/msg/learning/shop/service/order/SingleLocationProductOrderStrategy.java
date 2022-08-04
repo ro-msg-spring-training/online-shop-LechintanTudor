@@ -11,33 +11,41 @@ import java.util.Objects;
 public class SingleLocationProductOrderStrategy implements ProductOrderStrategy {
     @Override
     public List<DeliveryStock> findDeliveryStocks(ProductOrder order, List<Location> locations) {
-        for (var location : locations) {
-            var deliveryStocks = new ArrayList<DeliveryStock>();
+        return locations.stream()
+            .map(location -> findSuitableDeliveryStocks(order, location))
+            .filter(Objects::nonNull)
+            .findFirst()
+            .orElseThrow(NoSuitableDeliveryStocksFoundException::new);
+    }
 
-            for (var orderDetail : order.getDetails()) {
-                // Find a suitable stock from the current location
-                var selectedStock = location.getStocks().stream()
-                    .filter(stock -> {
-                        return
-                            Objects.equals(orderDetail.getProduct().getId(), stock.getProduct().getId())
-                                && orderDetail.getQuantity() <= stock.getQuantity();
-                    })
-                    .findFirst();
+    /**
+     * Finds a list of suitable delivery stocks for shipping a product from the given location.
+     *
+     * @param order    order for which to find delivery stocks
+     * @param location location from which the order will be delivered
+     * @return list of suitable delivery stocks or null if the products requested in the order are out of stock
+     */
+    private List<DeliveryStock> findSuitableDeliveryStocks(ProductOrder order, Location location) {
+        var deliveryStocks = new ArrayList<DeliveryStock>();
 
-                // Discard the location if we can't find a suitable stock
-                if (selectedStock.isEmpty()) {
-                    deliveryStocks = null;
-                    break;
-                }
+        for (var orderDetail : order.getDetails()) {
+            // Find a suitable stock from the current location
+            var selectedStock = location.getStocks().stream()
+                .filter(stock -> {
+                    return
+                        Objects.equals(orderDetail.getProduct().getId(), stock.getProduct().getId())
+                            && orderDetail.getQuantity() <= stock.getQuantity();
+                })
+                .findFirst();
 
-                deliveryStocks.add(new DeliveryStock(selectedStock.get(), orderDetail.getQuantity()));
+            // Discard the location if we can't find a suitable stock
+            if (selectedStock.isEmpty()) {
+                return null;
             }
 
-            if (deliveryStocks != null) {
-                return deliveryStocks;
-            }
+            deliveryStocks.add(new DeliveryStock(selectedStock.get(), orderDetail.getQuantity()));
         }
 
-        throw new NoSuitableDeliveryStocksFoundException();
+        return deliveryStocks;
     }
 }

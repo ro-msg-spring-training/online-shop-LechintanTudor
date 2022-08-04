@@ -46,6 +46,18 @@ public class ProductOrderService {
             throw new NullEntityException(ProductOrder.class);
         }
 
+        fillProductOrderCustomer(order);
+        fillProductOrderDetails(order);
+
+        return shipProductOrder(order);
+    }
+
+    /**
+     * Fills a product order with customer data.
+     *
+     * @param order product order to fill with data
+     */
+    private void fillProductOrderCustomer(ProductOrder order) {
         var customerId = order.getCustomer().getId();
         var customer = customerService
             .findCustomerById(customerId)
@@ -53,7 +65,14 @@ public class ProductOrderService {
 
         order.setCustomer(customer);
 
-        // Fill the order details
+    }
+
+    /**
+     * Fills a product order with order details.
+     *
+     * @param order product order to fill with data
+     */
+    private void fillProductOrderDetails(ProductOrder order) {
         order.getDetails().forEach(detail -> {
             var productId = detail.getProduct().getId();
             var product = productService
@@ -63,7 +82,15 @@ public class ProductOrderService {
             detail.setOrder(order);
             detail.setProduct(product);
         });
+    }
 
+    /**
+     * Finds the most suitable shipping location for the given order and updates the product stock and order details.
+     *
+     * @param order product order to ship
+     * @return saved product order
+     */
+    private ProductOrder shipProductOrder(ProductOrder order) {
         // Set the first stock location as the shipped from location, so we don't have to change the database schema
         var deliveryStocks = orderStrategy.findDeliveryStocks(order, locationService.findAllLocations());
         order.setShippedFrom(deliveryStocks.get(0).getStock().getLocation());
