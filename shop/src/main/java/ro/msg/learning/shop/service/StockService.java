@@ -33,23 +33,42 @@ public class StockService {
             throw new NullEntityException(Stock.class);
         }
 
-        var productId = stock.getProduct().getId();
-        var product = productService
-            .findProductById(productId)
-            .orElseThrow(() -> new EntityNotFoundException(Product.class, productId));
-
-        var locationId = stock.getLocation().getId();
-        var location = locationService
-            .findLocationById(locationId)
-            .orElseThrow(() -> new EntityNotFoundException(Location.class, locationId));
-
-        stock.setProduct(product);
-        stock.setLocation(location);
+        fillStockProduct(stock);
+        fillStockLocation(stock);
 
         return stockRepository.save(stock);
     }
 
     public List<Stock> findAllStocks() {
         return stockRepository.findAll();
+    }
+
+
+    /**
+     * Fills a stock with product data.
+     *
+     * @param stock stock to fill with data
+     */
+    private void fillStockProduct(Stock stock) {
+        var productId = stock.getProduct().getId();
+        var product = productService
+            .findProductById(productId)
+            .orElseThrow(() -> new EntityNotFoundException(Product.class, productId));
+
+        stock.setProduct(product);
+    }
+
+    /**
+     * Fill a stock with location data
+     *
+     * @param stock stock to fill with location data
+     */
+    private void fillStockLocation(Stock stock) {
+        var locationId = stock.getLocation().getId();
+        var location = locationService
+            .findLocationById(locationId)
+            .orElseThrow(() -> new EntityNotFoundException(Location.class, locationId));
+
+        stock.setLocation(location);
     }
 }
