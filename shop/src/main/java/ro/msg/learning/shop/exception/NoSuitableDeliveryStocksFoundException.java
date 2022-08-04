@@ -1,4 +1,4 @@
-package ro.msg.learning.shop.service.order;
+package ro.msg.learning.shop.exception;
 
 public class NoSuitableDeliveryStocksFoundException extends RuntimeException {
     public NoSuitableDeliveryStocksFoundException() {

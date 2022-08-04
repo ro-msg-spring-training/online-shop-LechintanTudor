@@ -2,40 +2,41 @@ package ro.msg.learning.shop.service;
 
 import org.springframework.stereotype.Service;
 import ro.msg.learning.shop.exception.EntityNotFoundException;
+import ro.msg.learning.shop.exception.NullEntityException;
 import ro.msg.learning.shop.model.Customer;
 import ro.msg.learning.shop.model.Product;
 import ro.msg.learning.shop.model.ProductOrder;
-import ro.msg.learning.shop.repository.*;
-import ro.msg.learning.shop.service.exception.NullEntityException;
+import ro.msg.learning.shop.repository.ProductOrderDetailRepository;
+import ro.msg.learning.shop.repository.ProductOrderRepository;
 import ro.msg.learning.shop.service.order.ProductOrderStrategy;
 
 import javax.transaction.Transactional;
 
 @Service
 public class ProductOrderService {
-    private final LocationRepository locationRepository;
-    private final CustomerRepository customerRepository;
-    private final ProductRepository productRepository;
     private final ProductOrderDetailRepository orderDetailRepository;
     private final ProductOrderRepository orderRepository;
-    private final StockRepository stockRepository;
+    private final LocationService locationService;
+    private final CustomerService customerService;
+    private final ProductService productService;
+    private final StockService stockService;
     private final ProductOrderStrategy orderStrategy;
 
     public ProductOrderService(
-        LocationRepository locationRepository,
-        CustomerRepository customerRepository,
-        ProductRepository productRepository,
         ProductOrderDetailRepository orderDetailRepository,
         ProductOrderRepository orderRepository,
-        StockRepository stockRepository,
+        LocationService locationService,
+        CustomerService customerService,
+        ProductService productService,
+        StockService stockService,
         ProductOrderStrategy orderStrategy
     ) {
-        this.locationRepository = locationRepository;
-        this.customerRepository = customerRepository;
-        this.productRepository = productRepository;
         this.orderDetailRepository = orderDetailRepository;
         this.orderRepository = orderRepository;
-        this.stockRepository = stockRepository;
+        this.locationService = locationService;
+        this.customerService = customerService;
+        this.productService = productService;
+        this.stockService = stockService;
         this.orderStrategy = orderStrategy;
     }
 
@@ -46,8 +47,8 @@ public class ProductOrderService {
         }
 
         var customerId = order.getCustomer().getId();
-        var customer = customerRepository
-            .findById(customerId)
+        var customer = customerService
+            .findCustomerById(customerId)
             .orElseThrow(() -> new EntityNotFoundException(Customer.class, customerId));
 
         order.setCustomer(customer);
@@ -55,8 +56,8 @@ public class ProductOrderService {
         // Fill the order details
         order.getDetails().forEach(detail -> {
             var productId = detail.getProduct().getId();
-            var product = productRepository
-                .findById(productId)
+            var product = productService
+                .findProductById(productId)
                 .orElseThrow(() -> new EntityNotFoundException(Product.class, productId));
 
             detail.setOrder(order);
@@ -64,7 +65,7 @@ public class ProductOrderService {
         });
 
         // Set the first stock location as the shipped from location, so we don't have to change the database schema
-        var deliveryStocks = orderStrategy.findDeliveryStocks(order, locationRepository.findAll());
+        var deliveryStocks = orderStrategy.findDeliveryStocks(order, locationService.findAllLocations());
         order.setShippedFrom(deliveryStocks.get(0).getStock().getLocation());
 
         var savedOrder = orderRepository.save(order);
@@ -74,7 +75,7 @@ public class ProductOrderService {
         for (var deliveryStock : deliveryStocks) {
             var updatedStock = deliveryStock.getStock();
             updatedStock.setQuantity(updatedStock.getQuantity() - deliveryStock.getQuantity());
-            stockRepository.save(updatedStock);
+            stockService.saveStock(updatedStock);
         }
 
         return savedOrder;

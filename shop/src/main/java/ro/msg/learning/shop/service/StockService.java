@@ -2,31 +2,29 @@ package ro.msg.learning.shop.service;
 
 import org.springframework.stereotype.Service;
 import ro.msg.learning.shop.exception.EntityNotFoundException;
+import ro.msg.learning.shop.exception.NullEntityException;
 import ro.msg.learning.shop.model.Location;
 import ro.msg.learning.shop.model.Product;
 import ro.msg.learning.shop.model.Stock;
-import ro.msg.learning.shop.repository.LocationRepository;
-import ro.msg.learning.shop.repository.ProductRepository;
 import ro.msg.learning.shop.repository.StockRepository;
-import ro.msg.learning.shop.service.exception.NullEntityException;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
 public class StockService {
-    private final ProductRepository productRepository;
-    private final LocationRepository locationRepository;
     private final StockRepository stockRepository;
+    private final ProductService productService;
+    private final LocationService locationService;
 
     public StockService(
-        ProductRepository productRepository,
-        LocationRepository locationRepository,
-        StockRepository stockRepository
+        StockRepository stockRepository,
+        ProductService productService,
+        LocationService locationService
     ) {
-        this.productRepository = productRepository;
-        this.locationRepository = locationRepository;
         this.stockRepository = stockRepository;
+        this.productService = productService;
+        this.locationService = locationService;
     }
 
     @Transactional
@@ -36,13 +34,13 @@ public class StockService {
         }
 
         var productId = stock.getProduct().getId();
-        var product = productRepository
-            .findById(productId)
+        var product = productService
+            .findProductById(productId)
             .orElseThrow(() -> new EntityNotFoundException(Product.class, productId));
 
         var locationId = stock.getLocation().getId();
-        var location = locationRepository
-            .findById(locationId)
+        var location = locationService
+            .findLocationById(locationId)
             .orElseThrow(() -> new EntityNotFoundException(Location.class, locationId));
 
         stock.setProduct(product);

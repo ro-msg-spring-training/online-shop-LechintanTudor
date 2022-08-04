@@ -2,11 +2,11 @@ package ro.msg.learning.shop.service;
 
 import org.springframework.stereotype.Service;
 import ro.msg.learning.shop.exception.EntityNotFoundException;
+import ro.msg.learning.shop.exception.NullEntityException;
 import ro.msg.learning.shop.model.Product;
 import ro.msg.learning.shop.model.ProductCategory;
 import ro.msg.learning.shop.model.Supplier;
 import ro.msg.learning.shop.repository.ProductRepository;
-import ro.msg.learning.shop.service.exception.NullEntityException;
 
 import javax.transaction.Transactional;
 import java.util.List;

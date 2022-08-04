@@ -1,10 +1,11 @@
 package ro.msg.learning.shop.service;
 
 import org.springframework.stereotype.Service;
+import ro.msg.learning.shop.exception.NullEntityException;
 import ro.msg.learning.shop.model.ProductCategory;
 import ro.msg.learning.shop.repository.ProductCategoryRepository;
-import ro.msg.learning.shop.service.exception.NullEntityException;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ public class ProductCategoryService {
         this.productCategoryRepository = productCategoryRepository;
     }
 
+    @Transactional
     public ProductCategory saveProductCategory(ProductCategory productCategory) {
         if (productCategory == null) {
             throw new NullEntityException(ProductCategory.class);

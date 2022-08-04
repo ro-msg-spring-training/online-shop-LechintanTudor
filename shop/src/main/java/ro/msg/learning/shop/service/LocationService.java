@@ -1,9 +1,9 @@
 package ro.msg.learning.shop.service;
 
 import org.springframework.stereotype.Service;
+import ro.msg.learning.shop.exception.NullEntityException;
 import ro.msg.learning.shop.model.Location;
 import ro.msg.learning.shop.repository.LocationRepository;
-import ro.msg.learning.shop.service.exception.NullEntityException;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -17,6 +17,7 @@ public class LocationService {
         this.locationRepository = locationRepository;
     }
 
+    @Transactional
     public Location saveLocation(Location location) {
         if (location == null) {
             throw new NullEntityException(Location.class);
